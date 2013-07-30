@@ -17,8 +17,11 @@ struct Account {
 	std::vector<Card> collection;	// card collection
 };
 
-// write Account
+// write Account to file
 std::ofstream& operator<<(std::ofstream&, Account&);
+
+// print account to ostream
+std::ostream& operator<<(std::ostream&, Account&);
 
 // load an account
 Account loadAccount(std::string, std::string);

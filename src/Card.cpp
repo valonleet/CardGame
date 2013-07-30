@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 
 #include "Card.h"
 #include "split.h"
@@ -45,9 +46,9 @@ Card loadCard(string name) {
 		cardElements = split(line, ' ');
 
 		if (cardElements[0] == name) {
-			card.name = cardElements[0].substr(1, cardElements[0].size() - 1);
-			card.type = cardElements[1].substr(1, cardElements[1].size() - 1);
-			card.set = cardElements[2].substr(1, cardElements[2].size() - 1);
+			card.name = cardElements[0].substr(1, cardElements[0].size() - 2);
+			card.type = cardElements[1].substr(1, cardElements[1].size() - 2);
+			card.set = cardElements[2].substr(1, cardElements[2].size() - 2);
 			card.value = atoi(cardElements[3].c_str());
 			card.rarityValue = (rarity) atoi(cardElements[4].c_str());
 		}

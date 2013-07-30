@@ -1,11 +1,14 @@
+#include <iostream>
+
 #include "Account.h"
 #include "split.h"
-#include <iostream>
 
 using std::ofstream;
 using std::vector;
 using std::string;
 using std::ifstream;
+using std::ostream;
+using std::endl;
 
 /* Constructors */
 Account::Account() {
@@ -57,6 +60,26 @@ ofstream& operator<<(ofstream& rhs, Account& lfs) {
 	return rhs;
 }
 
+ostream& operator<<(ostream& os, Account& acc) {
+	os << "Username: " << acc.username << endl << "Points: " << acc.points << endl << "Rating: " << acc.rating << endl << endl;
+
+	for (int i = 0; i < 3; i++) {
+		os << "Deck #" << i << endl;
+		for (int j = 0; j < 12; j++) {
+			os << acc.decks[i][j].name << endl;
+		}
+		os << endl;
+	}
+
+	os << "Collection: " << endl;
+
+	for (vector<Card>::const_iterator iter = acc.collection.begin(); iter != acc.collection.end(); iter++) {
+		os << iter->name << endl;
+	}
+
+	return os;
+}
+
 Account loadAccount(string username, string password) {
 	std::ifstream accountFile;
 	string line;
@@ -68,9 +91,7 @@ Account loadAccount(string username, string password) {
 
 	while (getline(accountFile, line)) {
 		lineElements = split(line, ' ');
-		for (vector<string>::size_type i = 0; i != lineElements.size(); i++) {
-			std::cout << lineElements[i] << std::endl;
-		}
+
 		// check if username / password combination exists
 		if (lineElements[0] == username && lineElements[1] == password) {
 			acc.username = lineElements[0];
@@ -85,17 +106,19 @@ Account loadAccount(string username, string password) {
 
 			// populate decks
 			for (int i = 0; i < 12; i++) {
-				acc.decks[0][i] = loadCard(cards[i].substr(1, cards[i].size() - 1));
-				acc.decks[1][i] = loadCard(cards[i+12].substr(1, cards[i+12].size() - 1));
-				acc.decks[2][i] = loadCard(cards[i+24].substr(1, cards[i+24].size() - 1));
+				acc.decks[0][i] = loadCard(cards[i]);
+				acc.decks[1][i] = loadCard(cards[i+12]);
+				acc.decks[2][i] = loadCard(cards[i+24]);
 			}
 
 			// populate collection
 			if (cards.size() >= 36) {
 				for (vector<string>::size_type i = 36; i < cards.size(); i++) {
-					acc.collection.push_back(loadCard(cards[i].substr(1, cards[i].size() - 1)));
+					acc.collection.push_back(loadCard(cards[i]));
 				}
 			}
+
+			break;
 
 		}
 		

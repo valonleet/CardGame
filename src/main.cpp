@@ -4,30 +4,14 @@
 #include "Card.h"
 #include "Account.h"
 
+using std::cout;
+
 int main(void) {
-	Card d;
-	d.name = "testColl";
-	Account a;
+	Account test;
 
-	a.username = "testname";
-	a.password = "testpass";
-	a.collection.push_back(d);
-	a.points = 10000;
-	a.rating = 10;
+	test = loadAccount("testname", "testpass");
 
-	std::ofstream os;
-
-	os.open("accounts.txt");
-
-	os << a;
-
-	os.close();
-
-	loadAccount("testname", "testpass");
-
-	char c;
-
-	std::cin >> c;
+	cout << test;
 	
 	return 0;
 }
