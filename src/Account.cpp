@@ -126,21 +126,3 @@ Account loadAccount(string username) {
 
 	return acc;
 }
-
-bool checkLogin(string username, string password) {
-	ifstream accountFile;
-	string line;
-	vector<string> lineElements;
-
-	accountFile.open("accounts.txt");
-
-	while (getline(accountFile, line)) {
-		lineElements = split(line, ' ');
-
-		if (lineElements[0] == username && lineElements[1] == password) {
-			return true;
-		}
-	}
-
-	return false;
-}

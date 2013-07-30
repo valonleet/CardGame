@@ -26,7 +26,4 @@ std::ostream& operator<<(std::ostream&, Account&);
 // load an account
 Account loadAccount(std::string);
 
-// check username/password combination
-bool checkLogin(std::string, std::string);
-
 #endif
