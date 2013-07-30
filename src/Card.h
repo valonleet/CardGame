@@ -25,4 +25,7 @@ struct Card {
 // write Card
 std::ofstream& operator<<(std::ofstream&, Card&);
 
+// load card
+Card loadCard(std::string);
+
 #endif

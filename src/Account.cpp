@@ -1,7 +1,11 @@
 #include "Account.h"
+#include "split.h"
+#include <iostream>
 
 using std::ofstream;
 using std::vector;
+using std::string;
+using std::ifstream;
 
 /* Constructors */
 Account::Account() {
@@ -20,7 +24,6 @@ Account::Account() {
 }
 
 /* Non member functions */
-
 // write account to file
 ofstream& operator<<(ofstream& rhs, Account& lfs) {
 	// general account info
@@ -52,4 +55,51 @@ ofstream& operator<<(ofstream& rhs, Account& lfs) {
 	rhs << "\n";
 
 	return rhs;
+}
+
+Account loadAccount(string username, string password) {
+	std::ifstream accountFile;
+	string line;
+	vector<string> lineElements;
+	vector<string> cards;
+	Account acc;
+
+	accountFile.open("Accounts.txt");
+
+	while (getline(accountFile, line)) {
+		lineElements = split(line, ' ');
+		for (vector<string>::size_type i = 0; i != lineElements.size(); i++) {
+			std::cout << lineElements[i] << std::endl;
+		}
+		// check if username / password combination exists
+		if (lineElements[0] == username && lineElements[1] == password) {
+			acc.username = lineElements[0];
+			acc.points = atoi(lineElements[2].c_str());
+			acc.rating = atoi(lineElements[3].c_str());
+
+			// get cards
+			split(lineElements[4], ',', cards);
+			split(lineElements[5], ',', cards);
+			split(lineElements[6], ',', cards);
+			split(lineElements[7], ',', cards);
+
+			// populate decks
+			for (int i = 0; i < 12; i++) {
+				acc.decks[0][i] = loadCard(cards[i].substr(1, cards[i].size() - 1));
+				acc.decks[1][i] = loadCard(cards[i+12].substr(1, cards[i+12].size() - 1));
+				acc.decks[2][i] = loadCard(cards[i+24].substr(1, cards[i+24].size() - 1));
+			}
+
+			// populate collection
+			if (cards.size() >= 36) {
+				for (vector<string>::size_type i = 36; i < cards.size(); i++) {
+					acc.collection.push_back(loadCard(cards[i].substr(1, cards[i].size() - 1)));
+				}
+			}
+
+		}
+		
+	}
+
+	return acc;
 }

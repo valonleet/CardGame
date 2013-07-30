@@ -20,4 +20,7 @@ struct Account {
 // write Account
 std::ofstream& operator<<(std::ofstream&, Account&);
 
+// load an account
+Account loadAccount(std::string, std::string);
+
 #endif
