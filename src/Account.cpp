@@ -80,7 +80,7 @@ ostream& operator<<(ostream& os, Account& acc) {
 	return os;
 }
 
-Account loadAccount(string username, string password) {
+Account loadAccount(string username) {
 	std::ifstream accountFile;
 	string line;
 	vector<string> lineElements;
@@ -93,7 +93,7 @@ Account loadAccount(string username, string password) {
 		lineElements = split(line, ' ');
 
 		// check if username / password combination exists
-		if (lineElements[0] == username && lineElements[1] == password) {
+		if (lineElements[0] == username) {
 			acc.username = lineElements[0];
 			acc.points = atoi(lineElements[2].c_str());
 			acc.rating = atoi(lineElements[3].c_str());
@@ -125,4 +125,22 @@ Account loadAccount(string username, string password) {
 	}
 
 	return acc;
+}
+
+bool checkLogin(string username, string password) {
+	ifstream accountFile;
+	string line;
+	vector<string> lineElements;
+
+	accountFile.open("accounts.txt");
+
+	while (getline(accountFile, line)) {
+		lineElements = split(line, ' ');
+
+		if (lineElements[0] == username && lineElements[1] == password) {
+			return true;
+		}
+	}
+
+	return false;
 }
