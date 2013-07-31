@@ -1,1 +1,0 @@
-"testColl" "type" "set" 10 2
