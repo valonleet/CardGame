@@ -15,21 +15,23 @@ Card::Card() {
 	name = "Blank";
 	value = 0;
 	rarityValue = common;
+	colorValue = red;
 }
 
-Card::Card(string name, string type, string set, unsigned short value, rarity rarityValue) {
+Card::Card(string name, string type, string set, unsigned short value, rarity rarityValue, color colorValue) {
 	this->name = name;
 	this->type = type;
 	this->set = set;
 	this->value = value;
 	this->rarityValue = rarityValue;
+	this->colorValue = colorValue;
 }
 
 /* non member functions */
 
 // writes a card to text file in the format: "name" "type" "set" value rarityValue
 ofstream& operator<<(ofstream& rhs, Card& lfs) {
-	rhs << "\"" << lfs.name << "\"" << " " << "\"" << lfs.type << "\"" << " " << "\"" << lfs.set << "\"" << " " << lfs.value << " " << lfs.rarityValue << "\n";
+	rhs << "\"" << lfs.name << "\"" << " " << "\"" << lfs.type << "\"" << " " << "\"" << lfs.set << "\"" << " " << lfs.value << " " << lfs.rarityValue << lfs.colorValue << "\n";
 	return rhs;
 }
 
@@ -51,6 +53,7 @@ Card loadCard(string name) {
 			card.set = cardElements[2].substr(1, cardElements[2].size() - 2);
 			card.value = atoi(cardElements[3].c_str());
 			card.rarityValue = (rarity) atoi(cardElements[4].c_str());
+			card.colorValue = (color) atoi(cardElements[5].c_str());
 		}
 	}
 
