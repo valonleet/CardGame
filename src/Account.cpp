@@ -55,6 +55,14 @@ ofstream& operator<<(ofstream& rhs, Account& lfs) {
 		}
 	}
 
+	for (vector<string>::size_type i = 0; i < lfs.auctions.size(); i++) {
+		rhs << lfs.auctions[i];	// ids don't have spaces so no ""
+
+		if (i != lfs.auctions.size() - 1) {
+			rhs << ",";
+		}
+	}
+
 	rhs << "\n";
 
 	return rhs;
@@ -85,6 +93,7 @@ Account loadAccount(string username) {
 	string line;
 	vector<string> lineElements;
 	vector<string> cards;
+	vector<string> auctionIds;
 	Account acc;
 
 	accountFile.open("Accounts.txt");
@@ -99,10 +108,13 @@ Account loadAccount(string username) {
 			acc.rating = atoi(lineElements[3].c_str());
 
 			// get cards
-			split(lineElements[4], ',', cards);
-			split(lineElements[5], ',', cards);
-			split(lineElements[6], ',', cards);
-			split(lineElements[7], ',', cards);
+			split(lineElements[4], ',', cards);		// deck #1
+			split(lineElements[5], ',', cards);		// deck #2
+			split(lineElements[6], ',', cards);		// deck #3
+			split(lineElements[7], ',', cards);		// collection
+
+			// get auctions
+			split(lineElements[8], ',', acc.auctions);
 
 			// populate decks
 			for (int i = 0; i < 12; i++) {
